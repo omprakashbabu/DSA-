@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include<stdio.h> 
 #include<stdlib.h>
 #include "stack_LL.h"
 struct Node* newNode(int data) {
