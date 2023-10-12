@@ -1,54 +1,52 @@
-#include "stack_array.h"
 #include <stdio.h>
-#include <stdlib.h>
-
-struct Stack* createStack(unsigned capacity) {
-    struct Stack* stack = (struct Stack*) malloc(sizeof(struct Stack));
-    if (!stack)
-        return NULL;
-    stack->capacity = capacity;
-    stack->top = -1;
-    stack->array = (int*) malloc(stack->capacity * sizeof(int));
-    if (!stack->array)
-        return NULL;
-    return stack;
+#include<limits.h>
+#include<stdlib.h>
+#include "stack.h"
+struct stack* create(unsigned capacity){
+    struct stack* s=(struct stack*)malloc(sizeof(struct stack));
+    s->capacity=capacity;
+    s->top=-1;
+    s->arr=(int*)malloc(s->capacity * (sizeof(int)));
+    return s;
+};
+int isfull(struct stack* s){
+    return s->top == s->capacity-1;
 }
-
-int isFull(struct Stack* stack) {
-    return stack->top == stack->capacity - 1;
+int isempty(struct stack* s){
+    return s->top==-1;
 }
-
-int isEmpty(struct Stack* stack) {
-    return stack->top == -1;
-}
-
-void push(struct Stack* stack, int item) {
-    if (isFull(stack)) {
-        printf("Stack overflow! Cannot push %d\n", item);
+void push(struct stack* s,int item){
+    if(isfull(s)){
         return;
     }
-    stack->array[++stack->top] = item;
+    s->arr[++s->top]=item;
 }
-
-int pop(struct Stack* stack) {
-    if (isEmpty(stack)) {
-        printf("Stack underflow! Cannot pop from an empty stack\n");
+int pop(struct stack* s){
+    if(isempty(s)){
         return INT_MIN;
     }
-    return stack->array[stack->top--];
+    return s->arr[s->top--];
 }
-
-int peek(struct Stack* stack) {
-    if (isEmpty(stack)) {
-        printf("Stack is empty! Cannot peek\n");
+int top(struct stack* s){
+    if(isempty(s)){
         return INT_MIN;
     }
-    return stack->array[stack->top];
+    return s->arr[s->top];
 }
-
-void displayStack(struct Stack* stack) {
-    for (int i = stack->top; i >= 0; i--) {
-        printf("%d ", stack->array[i]);
+void display(struct stack* s){
+    for(int i=s->top;i>=0;i--){
+        printf("%d ",s->arr[i]);
     }
-    printf("\n");
+}
+//Tower of Hanoi recurssion function (this was hell)
+void toh(int n,struct stack* s,struct stack* a,struct stack* d){
+    if(n==1){
+        push(d,pop(s));
+        
+    }else{
+        toh(n-1,s,d,a);
+        push(d,pop(s));
+        toh(n-1,a,s,d);
+    }
+    
 }
