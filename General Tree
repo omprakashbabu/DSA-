@@ -19,7 +19,7 @@ struct TreeNode* CreateNewNode(int data){
 
 void addChild(struct TreeNode* parent,struct TreeNode* child){
     if(parent->firstChild ==NULL){
-        parent->firstChild=child;
+        parent->firstChild=child ;
     }
     else{
         struct TreeNode* temp = parent->firstChild;
